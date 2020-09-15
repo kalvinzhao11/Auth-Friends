@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom'
 
 import {axiosWithAuth} from '../utils/axiosWithAuth'
@@ -32,21 +32,18 @@ const Login = () => {
         axiosWithAuth()
             .post('/api/login', submittedData.credentials)
             .then(response => {
-                console.log(response)
                 window.localStorage.setItem('token', response.data.payload)
                 history.push('./protected')
                 setLogin(initialLogin)
+                setIsLoading(false)
             })
             .catch(error => {
                 console.log(error)
-            })
-            .finally(
                 setIsLoading(false)
-            )
+            })
     }
     return (
         <>
-            <p>hi</p>
             <form onSubmit={submitHandler}>
                 <TextField
                     label='Username'
@@ -64,11 +61,11 @@ const Login = () => {
                     onChange={inputHandler}
                     type='password'
                 />
+                {isLoading ? <CircularProgress /> : ''}
                 <Button type='submit' >
                     Login
                 </Button>
             </form>
-            {/* {isLoading ? <p>hidsfdsfdsfsdfdsfwefewfe</p> : ''} */}
         </>
     )
 }

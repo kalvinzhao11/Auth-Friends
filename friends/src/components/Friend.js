@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, CircularProgress } from '@material-ui/core';
 
 import {axiosWithAuth} from '../utils/axiosWithAuth'
 
@@ -39,9 +39,9 @@ const Friend = () => {
     return (
         <>
             <h1>My Friends:</h1>
-            {friends.map(friend => {
+            {friends.length !== 0 ? friends.map(friend => {
                 return <div key={friend.id}>{friend.name} {friend.age} {friend.email}</div>
-            })}
+            }) : <CircularProgress/>}
             <form onSubmit={submitHandler}>
                 <TextField
                     label='Name'
